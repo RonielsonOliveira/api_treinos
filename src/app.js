@@ -24,6 +24,7 @@ const whiteList = [
   "http://192.168.1.105:3002",
   "http://127.0.0.1",
   "http://127.0.0.1:3002",
+  "https://front-app-treinos.vercel.app",
 ];
 
 // CORS seguro, não quebra a API
