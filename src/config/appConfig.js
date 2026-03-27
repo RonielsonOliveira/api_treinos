@@ -1,4 +1,5 @@
 import "dotenv/config";
+
 export default {
-  url: "http://127.0.0.1:3002",
+  url: process.env.APP_URL,
 };
