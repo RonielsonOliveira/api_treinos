@@ -1,7 +1,8 @@
 require("dotenv").config();
 
 module.exports = {
-  dialect: "mariadb",
+  dialect: "postgres",
+
   host: process.env.DATABASE_HOST,
   port: Number(process.env.DATABASE_PORT),
   username: process.env.DATABASE_USERNAME,
@@ -17,7 +18,10 @@ module.exports = {
   },
 
   dialectOptions: {
-    allowPublicKeyRetrieval: true,
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
   },
 
   timezone: "America/Sao_Paulo",
