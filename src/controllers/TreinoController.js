@@ -46,8 +46,8 @@ class TreinoController {
           exercicios.map((ex) => ({
             id: ex.id,
             TreinoExercicio: {
-              numero_de_series: ex.numerodeSeries ?? 3,
-              numero_de_repeticoes: ex.numerodeRepeticoes ?? 10,
+              numerodeSeries: ex.numerodeSeries ?? 3,
+              numerodeRepeticoes: ex.numerodeRepeticoes ?? 10,
             },
           })),
         );
