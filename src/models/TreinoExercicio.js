@@ -6,13 +6,17 @@ export default class TreinoExercicio extends Model {
       {
         treino_id: Sequelize.INTEGER,
         exercicio_id: Sequelize.INTEGER,
+
         numerodeSeries: {
           type: Sequelize.INTEGER,
           defaultValue: 3,
+          field: "numerodeSeries",
         },
+
         numerodeRepeticoes: {
           type: Sequelize.INTEGER,
           defaultValue: 10,
+          field: "numerodeRepeticoes",
         },
       },
       {
