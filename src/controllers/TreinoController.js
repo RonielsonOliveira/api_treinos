@@ -42,14 +42,18 @@ class TreinoController {
       });
 
       if (exercicios.length > 0) {
+        console.log(exercicios);
         await treino.setExercicios(
-          exercicios.map((ex) => ({
-            id: ex.id,
-            TreinoExercicio: {
-              numerodeSeries: ex.numerodeSeries ?? 3,
-              numerodeRepeticoes: ex.numerodeRepeticoes ?? 10,
-            },
-          })),
+          exercicios.map((ex) => ex.id),
+          {
+            through: exercicios.reduce((acc, ex) => {
+              acc[ex.id] = {
+                numerodeSeries: Number(ex.numerodeSeries ?? 3),
+                numerodeRepeticoes: Number(ex.numerodeRepeticoes ?? 10),
+              };
+              return acc;
+            }, {}),
+          },
         );
       }
 
