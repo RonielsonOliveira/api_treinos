@@ -29,23 +29,31 @@ class TreinoController {
     try {
       const { nome, descricao, aluno_id, exercicios } = req.body;
 
-      // 🔒 validação mínima
       if (!Array.isArray(exercicios)) {
         return res.status(400).json({
           errors: ["Exercícios precisa ser um array"],
         });
       }
 
-      // 1️⃣ cria o treino (SEM exercícios)
       const treino = await Treino.create({
         nome,
         descricao,
         aluno_id,
       });
 
-      // 2️⃣ associa exercícios (N:N)
       if (exercicios.length > 0) {
-        await treino.setExercicios(exercicios);
+        await treino.setExercicios(
+          exercicios.map((ex) => ex.id),
+          {
+            through: exercicios.reduce((acc, ex) => {
+              acc[ex.id] = {
+                numerodeSeries: ex.numerodeSeries,
+                numerodeRepeticoes: ex.numerodeRepeticoes,
+              };
+              return acc;
+            }, {}),
+          },
+        );
       }
 
       return res.json(treino);
@@ -93,16 +101,25 @@ class TreinoController {
         return res.status(404).json({ errors: ["Treino não encontrado"] });
       }
 
-      // 1️⃣ atualiza dados simples
       await treino.update({
         nome,
         descricao,
         aluno_id,
       });
 
-      // 2️⃣ atualiza relação N:N
       if (Array.isArray(exercicios)) {
-        await treino.setExercicios(exercicios);
+        await treino.setExercicios(
+          exercicios.map((ex) => ex.id),
+          {
+            through: exercicios.reduce((acc, ex) => {
+              acc[ex.id] = {
+                numerodeSeries: ex.numerodeSeries,
+                numerodeRepeticoes: ex.numerodeRepeticoes,
+              };
+              return acc;
+            }, {}),
+          },
+        );
       }
 
       return res.json(treino);
