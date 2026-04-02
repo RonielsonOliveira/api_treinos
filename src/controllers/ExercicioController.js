@@ -5,13 +5,7 @@ class ExercicioController {
   async index(req, res) {
     try {
       const exercicios = await Exercicio.findAll({
-        attributes: [
-          "id",
-          "nome",
-          "descricao",
-          "numerodeRepeticoes",
-          "numerodeSeries",
-        ],
+        attributes: ["id", "nome", "descricao"],
         include: [
           {
             model: FotoExercicio,
@@ -52,13 +46,7 @@ class ExercicioController {
       if (!id) return res.status(400).json({ errors: ["Faltando ID"] });
 
       const exercicio = await Exercicio.findByPk(id, {
-        attributes: [
-          "id",
-          "nome",
-          "descricao",
-          "numerodeRepeticoes",
-          "numerodeSeries",
-        ],
+        attributes: ["id", "nome", "descricao"],
         include: [
           {
             model: FotoExercicio,
