@@ -117,7 +117,6 @@ class TreinoController {
         aluno_id,
       });
 
-      // 🔥 UPDATE INTELIGENTE
       if (Array.isArray(exercicios)) {
         const existentesMap = new Map(
           treino.Exercicios.map((ex) => [ex.id, ex]),

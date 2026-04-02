@@ -10,6 +10,7 @@ class PhotoExercicioController {
       }
 
       const { exercicio_id } = req.body;
+
       if (!exercicio_id) {
         return res.status(400).json({ error: "exercicio_id é obrigatório" });
       }
@@ -19,7 +20,8 @@ class PhotoExercicioController {
           FotoExercicio.create({
             originalname: file.originalname,
             filename: file.filename,
-            exercicio_id,
+            url: file.path,
+            exercicio_id: Number(exercicio_id),
           }),
         ),
       );
