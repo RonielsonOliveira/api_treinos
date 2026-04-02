@@ -42,19 +42,14 @@ class TreinoController {
       });
 
       if (exercicios.length > 0) {
-        console.log("exercicios" + exercicios);
-        await treino.setExercicios(
-          exercicios.map((ex) => ex.id),
-          {
-            through: exercicios.reduce((acc, ex) => {
-              acc[ex.id] = {
-                numerodeSeries: Number(ex.numerodeSeries ?? 3),
-                numerodeRepeticoes: Number(ex.numerodeRepeticoes ?? 10),
-              };
-              return acc;
-            }, {}),
-          },
-        );
+        for (const ex of exercicios) {
+          await treino.addExercicio(ex.id, {
+            through: {
+              numerodeSeries: Number(ex.numerodeSeries),
+              numerodeRepeticoes: Number(ex.numerodeRepeticoes),
+            },
+          });
+        }
       }
 
       return res.json(treino);
