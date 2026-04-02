@@ -1,5 +1,6 @@
 import Treino from "../models/Treino";
 import Exercicio from "../models/Exercicio";
+import TreinoExercicio from "../models/TreinoExercicio";
 
 class TreinoController {
   async index(req, res) {
@@ -11,7 +12,7 @@ class TreinoController {
             model: Exercicio,
             attributes: ["id", "nome"],
             through: {
-              attributes: ["numerode_series  ", "numerode_repeticoes"],
+              attributes: ["numero_de_series", "numero_de_repeticoes"], // ✅ corrigido
             },
           },
         ],
@@ -25,9 +26,8 @@ class TreinoController {
   }
 
   async store(req, res) {
-    console.log("body" + req);
     try {
-      const { nome, descricao, aluno_id, exercicios } = req.body;
+      const { nome, descricao, aluno_id, exercicios = [] } = req.body;
 
       if (!Array.isArray(exercicios)) {
         return res.status(400).json({
@@ -43,16 +43,13 @@ class TreinoController {
 
       if (exercicios.length > 0) {
         await treino.setExercicios(
-          exercicios.map((ex) => ex.id),
-          {
-            through: exercicios.reduce((acc, ex) => {
-              acc[ex.id] = {
-                numerodeSeries: ex.numerodeSeries,
-                numerodeRepeticoes: ex.numerodeRepeticoes,
-              };
-              return acc;
-            }, {}),
-          },
+          exercicios.map((ex) => ({
+            id: ex.id,
+            TreinoExercicio: {
+              numero_de_series: ex.numerodeSeries ?? 3,
+              numero_de_repeticoes: ex.numerodeRepeticoes ?? 10,
+            },
+          })),
         );
       }
 
@@ -75,7 +72,9 @@ class TreinoController {
           {
             model: Exercicio,
             attributes: ["id", "nome"],
-            through: { attributes: [] },
+            through: {
+              attributes: ["numero_de_series", "numero_de_repeticoes"], // ✅ necessário pro front
+            },
           },
         ],
       });
@@ -93,9 +92,16 @@ class TreinoController {
   async update(req, res) {
     try {
       const { id } = req.params;
-      const { nome, descricao, aluno_id, exercicios } = req.body;
+      const { nome, descricao, aluno_id, exercicios = [] } = req.body;
 
-      const treino = await Treino.findByPk(id);
+      const treino = await Treino.findByPk(id, {
+        include: {
+          model: Exercicio,
+          through: {
+            attributes: ["numero_de_series", "numero_de_repeticoes"],
+          },
+        },
+      });
 
       if (!treino) {
         return res.status(404).json({ errors: ["Treino não encontrado"] });
@@ -107,19 +113,49 @@ class TreinoController {
         aluno_id,
       });
 
-      if (Array.isArray(exercicios) && exercicios.length > 0) {
-        await treino.setExercicios(
-          exercicios.map((ex) => ex.id), // só IDs
-          {
-            through: exercicios.reduce((acc, ex) => {
-              acc[ex.id] = {
-                series: ex.numerodeSeries,
-                repeticoes: ex.numerodeRepeticoes,
-              };
-              return acc;
-            }, {}),
-          },
+      // 🔥 UPDATE INTELIGENTE
+      if (Array.isArray(exercicios)) {
+        const existentesMap = new Map(
+          treino.Exercicios.map((ex) => [ex.id, ex]),
         );
+
+        const novosIds = exercicios.map((ex) => ex.id);
+
+        // 🗑️ remover os que saíram
+        const paraRemover = treino.Exercicios.filter(
+          (ex) => !novosIds.includes(ex.id),
+        );
+
+        for (const ex of paraRemover) {
+          await treino.removeExercicio(ex);
+        }
+
+        // ➕ criar ou atualizar
+        for (const ex of exercicios) {
+          const existente = existentesMap.get(ex.id);
+
+          if (existente) {
+            await TreinoExercicio.update(
+              {
+                numero_de_series: ex.numerodeSeries ?? 3,
+                numero_de_repeticoes: ex.numerodeRepeticoes ?? 10,
+              },
+              {
+                where: {
+                  treino_id: id,
+                  exercicio_id: ex.id,
+                },
+              },
+            );
+          } else {
+            await treino.addExercicio(ex.id, {
+              through: {
+                numero_de_series: ex.numerodeSeries ?? 3,
+                numero_de_repeticoes: ex.numerodeRepeticoes ?? 10,
+              },
+            });
+          }
+        }
       }
 
       return res.json(treino);

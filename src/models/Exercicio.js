@@ -24,20 +24,10 @@ export default class Exercicio extends Model {
             },
           },
         },
-        numerodeRepeticoes: {
-          type: Sequelize.INTEGER,
-          defaultValue: 0,
-          field: "numerode_repeticoes",
-        },
-        numerodeSeries: {
-          type: Sequelize.INTEGER,
-          defaultValue: 0,
-          field: "numerode_series",
-        },
       },
       {
         sequelize,
-        tableName: "exercicio", // <--- nome exato da tabela no DB
+        tableName: "exercicio",
       },
     );
     return this;
@@ -51,5 +41,10 @@ export default class Exercicio extends Model {
     });
 
     this.hasMany(models.FotoExercicio, { foreignKey: "exercicio_id" });
+    this.belongsToMany(models.Treino, {
+      through: models.TreinoExercicio,
+      foreignKey: "exercicio_id",
+      otherKey: "treino_id",
+    });
   }
 }
