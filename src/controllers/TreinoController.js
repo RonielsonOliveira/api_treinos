@@ -12,7 +12,7 @@ class TreinoController {
             model: Exercicio,
             attributes: ["id", "nome"],
             through: {
-              attributes: ["numero_de_series", "numero_de_repeticoes"], // ✅ corrigido
+              attributes: ["numerodeSeries", "numerodeRepeticoes"], // ✅ corrigido
             },
           },
         ],
@@ -73,7 +73,7 @@ class TreinoController {
             model: Exercicio,
             attributes: ["id", "nome"],
             through: {
-              attributes: ["numero_de_series", "numero_de_repeticoes"], // ✅ necessário pro front
+              attributes: ["numerodeSeries", "numerodeRepeticoes"], // ✅ necessário pro front
             },
           },
         ],
@@ -98,7 +98,7 @@ class TreinoController {
         include: {
           model: Exercicio,
           through: {
-            attributes: ["numero_de_series", "numero_de_repeticoes"],
+            attributes: ["numerodeSeries", "numerodeRepeticoes"],
           },
         },
       });
