@@ -42,7 +42,7 @@ class TreinoController {
       });
 
       if (exercicios.length > 0) {
-        console.log(exercicios);
+        console.log("exercicios" + exercicios);
         await treino.setExercicios(
           exercicios.map((ex) => ex.id),
           {
