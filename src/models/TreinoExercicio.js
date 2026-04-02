@@ -22,7 +22,7 @@ export default class TreinoExercicio extends Model {
       {
         sequelize,
         tableName: "treino_exercicio",
-        timestamps: false,
+        timestamps: true,
         underscored: true,
       },
     );
