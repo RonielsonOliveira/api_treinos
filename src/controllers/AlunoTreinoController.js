@@ -13,7 +13,7 @@ class AlunoTreinoController {
           {
             model: Exercicio,
             attributes: ["id", "nome", "descricao"], //atributos de exercicio
-            through: { attributes: ["series", "repeticoes"] }, // inclui séries e repetições
+            through: { attributes: ["numerodeSeries", "numerodeRepeticoes"] }, // inclui séries e repetições
             include: [
               {
                 model: FotoExercicio,
