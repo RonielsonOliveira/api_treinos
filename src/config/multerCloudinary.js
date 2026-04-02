@@ -5,9 +5,9 @@ import cloudinary from "./cloudinary";
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: "exercicios", // pasta no cloudinary
+    folder: "exercicios",
     allowed_formats: ["jpg", "jpeg", "png"],
   },
 });
 
-export default multer({ storage });
+export const uploadImages = multer({ storage }).array("fotos");

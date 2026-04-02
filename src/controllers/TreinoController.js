@@ -124,7 +124,6 @@ class TreinoController {
 
         const novosIds = exercicios.map((ex) => ex.id);
 
-        // 🗑️ remover os que saíram
         const paraRemover = treino.Exercicios.filter(
           (ex) => !novosIds.includes(ex.id),
         );
@@ -133,7 +132,6 @@ class TreinoController {
           await treino.removeExercicio(ex);
         }
 
-        // ➕ criar ou atualizar
         for (const ex of exercicios) {
           const existente = existentesMap.get(ex.id);
 
