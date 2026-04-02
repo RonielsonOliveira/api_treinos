@@ -8,7 +8,7 @@ export default class FotoExercicio extends Model {
         originalname: {
           type: Sequelize.STRING,
           defaultValue: "",
-          validate: { notEmpty: { msg: "Campo nao pode ficar vazio" } },
+          validate: { notEmpty: { msg: "Campo nao pode ficar vazioo" } },
         },
         filename: {
           type: Sequelize.STRING,
