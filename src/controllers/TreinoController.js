@@ -107,14 +107,14 @@ class TreinoController {
         aluno_id,
       });
 
-      if (Array.isArray(exercicios)) {
+      if (Array.isArray(exercicios) && exercicios.length > 0) {
         await treino.setExercicios(
-          exercicios.map((ex) => ex.id),
+          exercicios.map((ex) => ex.id), // só IDs
           {
             through: exercicios.reduce((acc, ex) => {
               acc[ex.id] = {
-                numerodeSeries: ex.numerodeSeries,
-                numerodeRepeticoes: ex.numerodeRepeticoes,
+                series: ex.numerodeSeries,
+                repeticoes: ex.numerodeRepeticoes,
               };
               return acc;
             }, {}),
