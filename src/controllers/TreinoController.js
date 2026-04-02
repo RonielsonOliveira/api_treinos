@@ -137,8 +137,8 @@ class TreinoController {
           if (existente) {
             await TreinoExercicio.update(
               {
-                numero_de_series: ex.numerodeSeries ?? 3,
-                numero_de_repeticoes: ex.numerodeRepeticoes ?? 10,
+                numerodeSeries: ex.numerodeSeries ?? 3,
+                numerodeRepeticoes: ex.numerodeRepeticoes ?? 10,
               },
               {
                 where: {
@@ -150,8 +150,8 @@ class TreinoController {
           } else {
             await treino.addExercicio(ex.id, {
               through: {
-                numero_de_series: ex.numerodeSeries ?? 3,
-                numero_de_repeticoes: ex.numerodeRepeticoes ?? 10,
+                numerodeSeries: ex.numerodeSeries ?? 3,
+                numerodeRepeticoes: ex.numerodeRepeticoes ?? 10,
               },
             });
           }
