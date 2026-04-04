@@ -1,0 +1,9 @@
+{
+  "$schema": "https://railway.app/railway.schema.json",
+  "deploy": {
+    "resources": {
+      "memory": 512,
+      "cpu": 1
+    }
+  }
+}
