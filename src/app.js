@@ -27,7 +27,6 @@ const whiteList = [
   "https://front-app-treinos.vercel.app",
 ];
 
-// CORS seguro, não quebra a API
 const corsOptions = {
   origin: function (origin, callback) {
     // permite requisições sem origin (ex: imagens)
@@ -48,8 +47,6 @@ class App {
   }
 
   middlewares() {
-    // 🔓 IMAGENS PÚBLICAS (SEM HELMET)
-
     this.app.use(
       "/images",
       (req, res, next) => {
@@ -100,5 +97,4 @@ class App {
   }
 }
 
-// Exporta a instância
 export default new App();

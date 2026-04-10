@@ -67,7 +67,6 @@ export default class Aluno extends Model {
           },
         },
 
-        // 🔐 senha virtual
         password: {
           type: Sequelize.VIRTUAL,
           validate: {
@@ -78,7 +77,6 @@ export default class Aluno extends Model {
           },
         },
 
-        // 🔐 hash no banco
         password_hash: {
           type: Sequelize.STRING,
         },
@@ -89,7 +87,6 @@ export default class Aluno extends Model {
       },
     );
 
-    // 🔹 Hook para gerar hash
     this.addHook("beforeSave", async (aluno) => {
       if (aluno.password) {
         aluno.password_hash = await bcryptjs.hash(aluno.password, 8);
@@ -99,7 +96,6 @@ export default class Aluno extends Model {
     return this;
   }
 
-  // 🔹 método de validação de senha
   passwordIsValid(password) {
     return bcryptjs.compare(password, this.password_hash);
   }

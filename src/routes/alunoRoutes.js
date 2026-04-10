@@ -8,7 +8,7 @@ const router = new Router();
 router.get("/", loginRequired, AlunoController.index);
 
 // CRIAR ALUNO
-router.post("/", AlunoController.store);
+router.post("/", loginRequired, AlunoController.store);
 
 // MOSTRAR UM ALUNO
 router.get("/:id", loginRequired, AlunoController.show);

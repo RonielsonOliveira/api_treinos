@@ -1,7 +1,6 @@
 import Aluno from "../models/Aluno";
 
 class AlunoController {
-  // 🔹 Listar todos os alunos
   async index(req, res) {
     try {
       const alunos = await Aluno.findAll({
@@ -16,7 +15,6 @@ class AlunoController {
     }
   }
 
-  // 🔹 Mostrar um aluno
   async show(req, res) {
     try {
       const { id } = req.params;
@@ -43,7 +41,6 @@ class AlunoController {
     }
   }
 
-  // 🔹 Criar aluno
   async store(req, res) {
     try {
       const aluno = await Aluno.create(req.body);
@@ -61,7 +58,6 @@ class AlunoController {
     }
   }
 
-  // 🔹 Atualizar aluno
   async update(req, res) {
     try {
       const { id } = req.params;
@@ -96,7 +92,6 @@ class AlunoController {
     }
   }
 
-  // 🔹 Deletar aluno
   async delete(req, res) {
     try {
       const { id } = req.params;
