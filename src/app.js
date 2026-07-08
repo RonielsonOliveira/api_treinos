@@ -83,7 +83,7 @@ class App {
     this.app.use("/exercicios", exercicioRoutes);
     this.app.use("/treinos", treinoRoutes);
     this.app.use("/alunos", alunoRoutes);
-    this.app.use("/alunoPage", alunoTreinoRoutes);
+    this.app.use("/", alunoTreinoRoutes);
   }
 
   start() {
