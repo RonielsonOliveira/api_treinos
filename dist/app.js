@@ -12,18 +12,21 @@ require('./database');
 var _homeRoutes = require('./routes/homeRoutes'); var _homeRoutes2 = _interopRequireDefault(_homeRoutes);
 var _userRoutes = require('./routes/userRoutes'); var _userRoutes2 = _interopRequireDefault(_userRoutes);
 var _tokenRoutes = require('./routes/tokenRoutes'); var _tokenRoutes2 = _interopRequireDefault(_tokenRoutes);
-var _alunoRoutes = require('./routes/alunoRoutes'); var _alunoRoutes2 = _interopRequireDefault(_alunoRoutes);
 var _photoRoutes = require('./routes/photoRoutes'); var _photoRoutes2 = _interopRequireDefault(_photoRoutes);
 var _exerciciosRoutes = require('./routes/exerciciosRoutes'); var _exerciciosRoutes2 = _interopRequireDefault(_exerciciosRoutes);
+var _treinoRoutes = require('./routes/treinoRoutes'); var _treinoRoutes2 = _interopRequireDefault(_treinoRoutes);
+var _alunoRoutes = require('./routes/alunoRoutes'); var _alunoRoutes2 = _interopRequireDefault(_alunoRoutes);
+var _alunoTokenRoutes = require('./routes/alunoTokenRoutes'); var _alunoTokenRoutes2 = _interopRequireDefault(_alunoTokenRoutes);
+var _alunoTreinoRoutes = require('./routes/alunoTreinoRoutes'); var _alunoTreinoRoutes2 = _interopRequireDefault(_alunoTreinoRoutes);
 const whiteList = [
   "http://localhost:3000",
   "http://localhost:3002",
   "http://192.168.1.105:3002",
   "http://127.0.0.1",
   "http://127.0.0.1:3002",
+  "https://front-app-treinos.vercel.app",
 ];
 
-// CORS seguro, não quebra a API
 const corsOptions = {
   origin: function (origin, callback) {
     // permite requisições sem origin (ex: imagens)
@@ -44,8 +47,6 @@ class App {
   }
 
   middlewares() {
-    // 🔓 IMAGENS PÚBLICAS (SEM HELMET)
-
     this.app.use(
       "/images",
       (req, res, next) => {
@@ -75,10 +76,14 @@ class App {
   routes() {
     this.app.use("/", _homeRoutes2.default);
     this.app.use("/users", _userRoutes2.default);
+
     this.app.use("/tokens", _tokenRoutes2.default);
-    this.app.use("/alunos", _alunoRoutes2.default);
+    this.app.use("/tokens/aluno", _alunoTokenRoutes2.default);
     this.app.use("/fotos", _photoRoutes2.default);
     this.app.use("/exercicios", _exerciciosRoutes2.default);
+    this.app.use("/treinos", _treinoRoutes2.default);
+    this.app.use("/alunos", _alunoRoutes2.default);
+    this.app.use("/alunoPage", _alunoTreinoRoutes2.default);
   }
 
   start() {
@@ -92,5 +97,4 @@ class App {
   }
 }
 
-// Exporta a instância
 exports. default = new App();

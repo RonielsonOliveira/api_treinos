@@ -1,9 +1,9 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _express = require('express');
 var _loginRequired = require('../middlewares/loginRequired'); var _loginRequired2 = _interopRequireDefault(_loginRequired);
-var _PhotoExercicioController = require('../controllers/PhotoExercicioController'); var _PhotoExercicioController2 = _interopRequireDefault(_PhotoExercicioController);
-var _multerCloudinary = require('../config/multerCloudinary');
+var _AlunoTreinoController = require('../controllers/AlunoTreinoController'); var _AlunoTreinoController2 = _interopRequireDefault(_AlunoTreinoController);
 
 const router = new (0, _express.Router)();
 
-router.post("/", _loginRequired2.default, _multerCloudinary.uploadImages, _PhotoExercicioController2.default.store);
+router.get("/me/treinos", _loginRequired2.default, _AlunoTreinoController2.default.index);
+
 exports. default = router;

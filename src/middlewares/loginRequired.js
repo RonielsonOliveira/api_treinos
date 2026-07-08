@@ -15,7 +15,7 @@ export default async (req, res, next) => {
     const dados = jwt.verify(authorization, process.env.TOKEN_SECRET);
     const { id, email, role } = dados;
 
-    // 🔹 LOGIN ADMIN / USER
+    //  LOGIN ADMIN / USER
     if (!role || role === "admin") {
       const user = await User.findOne({
         where: { id, email },
@@ -34,7 +34,7 @@ export default async (req, res, next) => {
       return next();
     }
 
-    // 🔹 LOGIN ALUNO
+    //  LOGIN ALUNO
     if (role === "aluno") {
       const aluno = await Aluno.findByPk(id);
 

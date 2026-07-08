@@ -1,6 +1,6 @@
 "use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _sequelize = require('sequelize'); var _sequelize2 = _interopRequireDefault(_sequelize);
 
- class Exercicio extends _sequelize.Model {
+ class Treino extends _sequelize.Model {
   static init(sequelize) {
     super.init(
       {
@@ -24,27 +24,28 @@
             },
           },
         },
+        aluno_id: {
+          type: _sequelize2.default.INTEGER,
+          allowNull: true,
+        },
       },
       {
         sequelize,
-        tableName: "exercicio",
+        tableName: "treino",
       },
     );
     return this;
   }
 
   static associate(models) {
-    this.belongsToMany(models.Treino, {
-      through: models.TreinoExercicio,
-      foreignKey: "exercicio_id",
-      otherKey: "treino_id",
-    });
+    // Treino -> Aluno (opcional)
+    this.belongsTo(models.Aluno, { foreignKey: "aluno_id" });
 
-    this.hasMany(models.FotoExercicio, { foreignKey: "exercicio_id" });
-    this.belongsToMany(models.Treino, {
+    // Treino <-> Exercício (N:N)
+    this.belongsToMany(models.Exercicio, {
       through: models.TreinoExercicio,
-      foreignKey: "exercicio_id",
-      otherKey: "treino_id",
+      foreignKey: "treino_id",
+      otherKey: "exercicio_id",
     });
   }
-} exports.default = Exercicio;
+} exports.default = Treino;

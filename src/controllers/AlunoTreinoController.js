@@ -1,19 +1,24 @@
 import Treino from "../models/Treino";
 import Exercicio from "../models/Exercicio";
 import FotoExercicio from "../models/FotoExercicio";
+
 class AlunoTreinoController {
   async index(req, res) {
     try {
-      const alunoId = req.userId;
+      const { alunoId } = req.params;
 
       const treinos = await Treino.findAll({
-        where: { aluno_id: alunoId },
+        where: {
+          aluno_id: alunoId,
+        },
         attributes: ["id", "nome", "descricao"],
         include: [
           {
             model: Exercicio,
-            attributes: ["id", "nome", "descricao"], //atributos de exercicio
-            through: { attributes: ["numerodeSeries", "numerodeRepeticoes"] }, // inclui séries e repetições
+            attributes: ["id", "nome", "descricao"],
+            through: {
+              attributes: ["numerodeSeries", "numerodeRepeticoes"],
+            },
             include: [
               {
                 model: FotoExercicio,
@@ -27,7 +32,9 @@ class AlunoTreinoController {
 
       return res.json(treinos);
     } catch (e) {
-      return res.status(400).json({ errors: [e.message] });
+      return res.status(400).json({
+        errors: [e.message],
+      });
     }
   }
 }
