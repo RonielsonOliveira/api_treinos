@@ -12,7 +12,7 @@ class AlunoTreinoController {
         where: {
           aluno_id: alunoId,
         },
-        attributes: ["id", "nome", "descricao"],
+        attributes: ["id", "nome", "descricao", "dia_semana"],
         include: [
           {
             model: Exercicio,
@@ -48,7 +48,7 @@ class AlunoTreinoController {
         where: {
           aluno_id: alunoId,
         },
-        attributes: ["id", "nome", "descricao"],
+        attributes: ["id", "nome", "descricao", "dia_semana"],
         include: [
           {
             model: Exercicio,
