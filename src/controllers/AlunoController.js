@@ -121,6 +121,25 @@ class AlunoController {
       });
     }
   }
+  async me(req, res) {
+    try {
+      const aluno = await Aluno.findByPk(req.userId, {
+        attributes: ["id", "nome", "sobrenome", "peso", "altura"],
+      });
+
+      if (!aluno) {
+        return res.status(404).json({
+          errors: ["Aluno não encontrado"],
+        });
+      }
+
+      return res.json(aluno);
+    } catch (e) {
+      return res.status(400).json({
+        errors: [e.message],
+      });
+    }
+  }
 }
 
 export default new AlunoController();

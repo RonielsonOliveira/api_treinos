@@ -3,6 +3,8 @@ import AlunoController from "../controllers/AlunoController";
 import loginRequired from "../middlewares/loginRequired";
 
 const router = new Router();
+// ALUNO LOGADO
+router.get("/me", loginRequired, AlunoController.me);
 
 // LISTAR ALUNOS
 router.get("/", loginRequired, AlunoController.index);
