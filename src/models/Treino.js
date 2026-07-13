@@ -28,6 +28,15 @@ export default class Treino extends Model {
           type: Sequelize.INTEGER,
           allowNull: true,
         },
+        dia_semana: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          defaultValue: 1,
+          validate: {
+            min: 1,
+            max: 7,
+          },
+        },
       },
       {
         sequelize,

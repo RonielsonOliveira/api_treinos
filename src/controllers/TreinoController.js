@@ -6,13 +6,13 @@ class TreinoController {
   async index(req, res) {
     try {
       const treinos = await Treino.findAll({
-        attributes: ["id", "nome", "descricao", "aluno_id"],
+        attributes: ["id", "nome", "descricao", "aluno_id", "dia_semana"],
         include: [
           {
             model: Exercicio,
             attributes: ["id", "nome"],
             through: {
-              attributes: ["numerodeSeries", "numerodeRepeticoes"], // ✅ corrigido
+              attributes: ["numerodeSeries", "numerodeRepeticoes"],
             },
           },
         ],
@@ -27,7 +27,13 @@ class TreinoController {
 
   async store(req, res) {
     try {
-      const { nome, descricao, aluno_id, exercicios = [] } = req.body;
+      const {
+        nome,
+        descricao,
+        aluno_id,
+        dia_semana,
+        exercicios = [],
+      } = req.body;
 
       if (!Array.isArray(exercicios)) {
         return res.status(400).json({
@@ -39,6 +45,7 @@ class TreinoController {
         nome,
         descricao,
         aluno_id,
+        dia_semana,
       });
 
       if (exercicios.length > 0) {
@@ -66,13 +73,13 @@ class TreinoController {
       const { id } = req.params;
 
       const treino = await Treino.findByPk(id, {
-        attributes: ["id", "nome", "descricao", "aluno_id"],
+        attributes: ["id", "nome", "descricao", "aluno_id", "dia_semana"],
         include: [
           {
             model: Exercicio,
             attributes: ["id", "nome"],
             through: {
-              attributes: ["numerodeSeries", "numerodeRepeticoes"], // ✅ necessário pro front
+              attributes: ["numerodeSeries", "numerodeRepeticoes"],
             },
           },
         ],
@@ -91,7 +98,13 @@ class TreinoController {
   async update(req, res) {
     try {
       const { id } = req.params;
-      const { nome, descricao, aluno_id, exercicios = [] } = req.body;
+      const {
+        nome,
+        descricao,
+        aluno_id,
+        dia_semana,
+        exercicios = [],
+      } = req.body;
 
       const treino = await Treino.findByPk(id, {
         include: {
@@ -110,6 +123,7 @@ class TreinoController {
         nome,
         descricao,
         aluno_id,
+        dia_semana,
       });
 
       if (Array.isArray(exercicios)) {
