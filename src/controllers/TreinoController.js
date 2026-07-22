@@ -10,7 +10,7 @@ class TreinoController {
         include: [
           {
             model: Exercicio,
-            attributes: ["id", "nome"],
+            attributes: ["id", "nome", "descricao"],
             through: {
               attributes: ["numerodeSeries", "numerodeRepeticoes"],
             },
